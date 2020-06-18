@@ -97,3 +97,56 @@ Looking for more guidance? Full documentation for Gatsby lives [on the website](
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/gatsbyjs/gatsby-starter-default)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
+
+## S3 Security
+
+The app needs an IAM user with "upload only" permission. Relevant section in [the docs](https://docs.aws.amazon.com/AmazonS3/latest/dev/example-policies-s3.html#iam-policy-ex4) that is copied here:
+
+### Allowing a Partner to Drop Files into a Specific Portion of the Corporate Bucket
+
+In this example, you create a group called WidgetCo that represents a partner company. You create an IAM user for the specific person or application at the partner company that needs access, and then you put the user in the group.
+
+You then attach a policy that gives the group PutObject access to the following folder in the corporate bucket: my_corporate_bucket/uploads/widgetco.
+
+You want to prevent the WidgetCo group from doing anything else with the bucket, so you add a statement that explicitly denies permission to any Amazon S3 permissions except PutObject on any Amazon S3 resource in the AWS account. This step is necessary only if there's a broad policy in use elsewhere in your AWS account that gives users wide access to Amazon S3 resources.
+
+Ex:
+
+```
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect":"Allow",
+         "Action":"s3:PutObject",
+         "Resource":"arn:aws:s3:::my_corporate_bucket/uploads/widgetco/*"
+      },
+      {
+         "Effect":"Deny",
+         "NotAction":"s3:PutObject",
+         "Resource":"arn:aws:s3:::my_corporate_bucket/uploads/widgetco/*"
+      },
+      {
+         "Effect":"Deny",
+         "Action":"s3:*",
+         "NotResource":"arn:aws:s3:::my_corporate_bucket/uploads/widgetco/*"
+      }
+   ]
+}
+```
+
+Actual:
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::amplify-safelanesto-photos/*"
+        }
+    ]
+}
+```
