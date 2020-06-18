@@ -150,3 +150,7 @@ Actual:
     ]
 }
 ```
+
+## Deploying
+
+`yarn build && yarn deploy` to deploy to s3. AWS CLI needs to be configured with a user with write access to that bucket. As of -6/17 the deployment region is us-east-1 (N. Virginia). An 'app user' has been created as of 06/17 with `PutObject` access to the photo/report storage bucket. Public access to that bucket is blocked, access can be granted to the safelanes site via CORS configuration.
