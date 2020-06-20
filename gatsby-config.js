@@ -28,6 +28,16 @@ module.exports = {
       },
     },
     {
+      resolve: 'gatsby-plugin-alias-imports',
+      options: {
+        alias: {
+          '@components': `${__dirname}/src/components`,
+          '@services': `${__dirname}/src/services`,
+        },
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+    {
       resolve: `gatsby-plugin-s3`,
       options: {
         bucketName: "safelanesto-site-deployment",
