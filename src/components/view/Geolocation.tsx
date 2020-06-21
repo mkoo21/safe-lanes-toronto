@@ -33,7 +33,7 @@ const SadIcon = styled(FaSadTear)`
   width: 200px;
 `;
 
-export default (setGeolocation) => {
+export default ({setGeolocation}) => {
   const [ permissionState, setPermissionState ] = useState(GeolocationPermissionStates.dismissed);
   const getGeolocation = async () => {
     // Permission check

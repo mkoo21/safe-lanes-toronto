@@ -7,11 +7,11 @@ const CLIENT = new AWS.Rekognition({
   region: 'us-east-1',
 });
 
-interface TextDetection {
+export interface TextDetection {
   DetectedText: string;
   Type: string;
   id: number;
-  confidence: number;
+  Confidence: number;
   Geometry: {
     [key: string]: any;
   }
@@ -19,19 +19,25 @@ interface TextDetection {
 export const extractTextFromFiles = async (files: File[]) => {
   const textDetections: TextDetection[] = [];
   const fileData = await Promise.all(Array.prototype.map.call(files, (f: File) => f.arrayBuffer()));
-  const callback = (err, data) => {
-    if(err) return // log?
-    console.log(data);
-    data.textDetections.forEach((detection: TextDetection) => {
-      if(detection.Type === "WORD") textDetections.push(detection);
-    });
-  };
-  fileData.forEach(bytes => {
-    CLIENT.detectText({
-      Image: {
-        Bytes: bytes as string,
-      }
-    }, callback);
-  })
-  
+
+  // This entire thing is horrible and I'm sorry.
+  const fileDetectionPromises = fileData.map(bytes => (
+    new Promise((resolve, reject) => {
+      const callback = (err, data) => {
+        if(err) reject(err);
+        const wordDetections: TextDetection[] = [];
+        data.TextDetections.forEach((detection: TextDetection) => {
+          if(detection.Type === "WORD") wordDetections.push(detection);
+        });
+        resolve(wordDetections);
+      };
+      CLIENT.detectText({
+        Image: {
+          Bytes: bytes as string,
+        }
+      }, callback);
+    })
+  ));
+
+  return await Promise.all(fileDetectionPromises);
 };
