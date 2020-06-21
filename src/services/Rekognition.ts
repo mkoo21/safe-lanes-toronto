@@ -27,7 +27,6 @@ export const extractTextFromFiles = async (files: File[]) => {
     });
   };
   fileData.forEach(bytes => {
-    debugger;
     CLIENT.detectText({
       Image: {
         Bytes: bytes as string,

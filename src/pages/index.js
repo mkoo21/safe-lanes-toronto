@@ -9,7 +9,7 @@ import Reporter from "@components/data/reporter";
 const IndexPage = () => (
   <Layout>
     <SEO title="Safe Lanes" />
-      <Reporter />
+    <Reporter />
   </Layout>
 )
 

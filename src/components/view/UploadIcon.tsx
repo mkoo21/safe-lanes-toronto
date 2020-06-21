@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 
@@ -11,8 +11,11 @@ const Clickable = styled.a`
   grid-area: main;
   cursor: pointer;
   &:hover ${Icon} {
-    opacity: 0.9;
+    opacity: 0.8;
   }
+  display: flex;
+  flex-direction: column;
+  align-items:center;
 `;
 
 const HiddenInput: any = styled.input`
@@ -28,9 +31,10 @@ export default ({ handleUpload }: any) => {
   return (
     <Clickable>
       <HiddenInput id='fileInput' type='file' accept="image/*" multiple onChange={onUpload} />
-      <label for='fileInput'>
+      <label htmlFor='fileInput'>
         <Icon />
       </label>
+      <h3>Upload a photo</h3>
     </Clickable>
   );
 }
