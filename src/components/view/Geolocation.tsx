@@ -26,11 +26,13 @@ const Container = styled.div`
 const Icon = styled(FaGlobeAmericas)`
   height: 200px;
   width: 200px;
+  margin: 20px;
 `;
 
 const SadIcon = styled(FaSadTear)`
   height: 200px;
   width: 200px;
+  margin: 20px;
 `;
 
 export default ({setGeolocation}) => {

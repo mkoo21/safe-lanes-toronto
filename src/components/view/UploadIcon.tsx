@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaCloudUploadAlt } from 'react-icons/fa';
+import { FaCamera } from 'react-icons/fa';
 
-const Icon = styled(FaCloudUploadAlt)`
-  height: 250px;
-  width: 250px;
+const Icon = styled(FaCamera)`
+  height: 100px;
+  width: 100px;
+  margin: 20px;
 `;
 
 const Clickable = styled.a`

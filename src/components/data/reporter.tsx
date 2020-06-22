@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
-import { extractTextFromFiles, TextDetection } from '@services/Rekognition';
+import { extractTextFromFiles } from '@services/Rekognition';
 import UploadIcon from '@components/view/UploadIcon';
 import Geolocation from '@components/view/Geolocation';
+import { ReportSummary } from '@components/view/ReportSummary';
 
 interface Report {
   [key: string]: any;
@@ -40,15 +41,3 @@ export default ({children}: any) => {
     </>
   );
 };
-
-const ReportSummary = ({position, extractedTexts}: {position: Position | null, extractedTexts: TextDetection[]}) => {
-  debugger;
-  const positionElement = position ? <h3>{`Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`}</h3> : <h3>Location not given :(</h3>;
-  const extractedTextElement = extractedTexts.length ? <ul>{ extractedTexts.flat().map(x => <li>{`${x.DetectedText}: ${x.Confidence}%`}</li>)}</ul> : <h3>Uploaded photos did not contain recognizable text :(</h3>;
-  return (
-    <div>
-      { positionElement }
-      { extractedTextElement }
-    </div>
-  )
-}

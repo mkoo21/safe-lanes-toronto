@@ -7,7 +7,7 @@ export default styled.div`
   grid-template-columns: 1fr auto 1fr;
   grid-template-areas: ". . ."
   ". main ."
-  ". . .";
+  ". six .";
   height: 100vh;
   width: 100vw;
 `;
