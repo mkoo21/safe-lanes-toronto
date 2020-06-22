@@ -40,7 +40,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-s3`,
       options: {
-        bucketName: "safelanesto-site-deployment",
+        bucketName: "safelanesto.ca",
       },
     },
     {
