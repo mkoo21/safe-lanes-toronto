@@ -38,7 +38,8 @@ export default ({ handleUpload }: any) => {
     leave: { opacity: 0, transform: 'translate3d(-30%, 0, 0)'},
   });
   return (
-    <Clickable style={transitions[0].props}>
+    // <Clickable style={transitions[0].props}>
+    <Clickable>
       <HiddenInput id='fileInput' type='file' accept="image/*" multiple onChange={onUpload} />
       <label htmlFor='fileInput'>
         <Icon />

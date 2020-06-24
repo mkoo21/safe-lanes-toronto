@@ -26,7 +26,7 @@ export const extractTextFromFiles = async (files: File[]) => {
       const callback = (err, data) => {
         if(err) reject(err);
         const wordDetections: TextDetection[] = [];
-        data.TextDetections.forEach((detection: TextDetection) => {
+        data && data.TextDetections.forEach((detection: TextDetection) => {
           if(detection.Type === "WORD") wordDetections.push(detection);
         });
         resolve(wordDetections);
