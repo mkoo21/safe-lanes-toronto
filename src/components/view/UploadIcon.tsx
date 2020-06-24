@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTransition, animated } from 'react-spring';
 import { FaCamera } from 'react-icons/fa';
 
 const Icon = styled(FaCamera)`
@@ -8,7 +9,7 @@ const Icon = styled(FaCamera)`
   margin: 20px;
 `;
 
-const Clickable = styled.a`
+const Clickable = styled(animated.a)`
   grid-area: main;
   cursor: pointer;
   &:hover ${Icon} {
@@ -29,8 +30,15 @@ export default ({ handleUpload }: any) => {
   const onUpload = async (event: any) => {
     handleUpload(event.currentTarget.files);
   }
+
+  // Animation
+  const transitions = useTransition(0, null, {
+    from: { opacity: 0, transform: 'translate3d(30%, 0, 0)'},
+    enter: { opacity: 1, transform: 'translate3d(0%, 0, 0)'},
+    leave: { opacity: 0, transform: 'translate3d(-30%, 0, 0)'},
+  });
   return (
-    <Clickable>
+    <Clickable style={transitions[0].props}>
       <HiddenInput id='fileInput' type='file' accept="image/*" multiple onChange={onUpload} />
       <label htmlFor='fileInput'>
         <Icon />
