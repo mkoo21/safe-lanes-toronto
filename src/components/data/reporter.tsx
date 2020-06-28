@@ -27,8 +27,11 @@ enum FlowStates {
   GEOLOCATION
 }
 
-const Container = styled.div`
+const GridCell = styled.div`
   grid-area: main;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default ({children}: any) => {
@@ -126,7 +129,7 @@ export default ({children}: any) => {
     </animated.div>
   ) : null;
 
-  return <Container>
+  return <GridCell>
     {[ReportComponent, SpinnerComponent, GeolocationComponent, UploadComponent]}
-  </Container>
+  </GridCell>
 };

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useTransition, animated } from 'react-spring';
 import { Keyframes } from 'react-spring/renderprops'
-import { FaCloudUploadAlt } from 'react-icons/fa';
 
 const SIZE = 200;
 const Container = styled.div`

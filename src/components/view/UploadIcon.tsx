@@ -9,10 +9,13 @@ const Icon = styled(FaCamera)`
   margin: 20px;
 `;
 
+const Label = styled.label`
+  cursor: inherit;
+`;
+
 const Clickable = styled(animated.a)`
-  grid-area: main;
   cursor: pointer;
-  &:hover ${Icon} {
+  &:hover {
     opacity: 0.8;
   }
   display: flex;
@@ -41,10 +44,9 @@ export default ({ handleUpload }: any) => {
     // <Clickable style={transitions[0].props}>
     <Clickable>
       <HiddenInput id='fileInput' type='file' accept="image/*" multiple onChange={onUpload} />
-      <label htmlFor='fileInput'>
+      <Label htmlFor='fileInput'>
         <Icon />
-      </label>
-      <h3>Upload a photo</h3>
+      </Label>
     </Clickable>
   );
 }

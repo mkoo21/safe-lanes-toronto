@@ -10,6 +10,8 @@ import PropTypes from "prop-types"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 
+import MapboxStyles from "@styles/mapbox";
+
 function SEO({ description, lang, meta, title }) {
   const { site } = useStaticQuery(
     graphql`
@@ -68,7 +70,9 @@ function SEO({ description, lang, meta, title }) {
           content: metaDescription,
         },
       ].concat(meta)}
-    />
+    >
+      <MapboxStyles />
+    </Helmet>
   )
 }
 
@@ -85,4 +89,4 @@ SEO.propTypes = {
   title: PropTypes.string.isRequired,
 }
 
-export default SEO
+export default SEO;

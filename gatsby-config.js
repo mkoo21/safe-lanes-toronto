@@ -33,6 +33,7 @@ module.exports = {
         alias: {
           '@components': `${__dirname}/src/components`,
           '@services': `${__dirname}/src/services`,
+          '@styles': `${__dirname}/src/styles`,
         },
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
