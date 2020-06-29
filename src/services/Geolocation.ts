@@ -1,5 +1,24 @@
 import { createContext } from 'react';
 
+export interface MapState {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+  setMapState?: () => any;
+}
+
+export const DEFAULT_MAP_STATE: MapState = {
+  latitude: 43.6529,
+  longitude: -79.3849,
+  zoom: 12,
+  setMapState: undefined,
+};
+
+export const mapStateReducer = (oldState: MapState, newState: object) => {
+  return { ...oldState, ...newState };
+};
+
+export const GeolocationContext = createContext(DEFAULT_MAP_STATE);
 
 export enum GeolocationPermissionStates {
   granted='granted',

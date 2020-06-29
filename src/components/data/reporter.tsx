@@ -34,7 +34,7 @@ const GridCell = styled.div`
   justify-content: center;
 `;
 
-export default ({children}: any) => {
+export default ({ setMapState }: { setMapState: (mapParams: object) => any }) => {
   const [ uploadedFiles, setUploadedFiles ] = useState([] as File[]);
   const [ geolocation, setGeolocation ] = useState(null as Position | null);
   const [ reportDetails, setReportDetails ] = useState({} as Report);
@@ -74,7 +74,11 @@ export default ({children}: any) => {
     Geolocate({
       onPermissionNeeded: () => setFlowState(FlowStates.GEOLOCATION),
       onPermissionDenied: () => setFlowState(FlowStates.GEOLOCATION),
-      onSuccess: (position: Position) => setGeolocation(position),
+      onSuccess: (position: Position) => {
+        setGeolocation(position);
+        const { latitude, longitude } = position.coords;
+        setMapState({ latitude, longitude, zoom: 16 });
+      }
     });
   }, []);
 
@@ -115,6 +119,8 @@ export default ({children}: any) => {
     <Geolocation 
       onPosition={(position: Position) => {
         setGeolocation(position);
+        const { latitude, longitude } = position.coords;
+        setMapState({ latitude, longitude, zoom: 16 })
         setFlowState(FlowStates.UPLOAD);
       }}
       dismiss={() => setFlowState(FlowStates.UPLOAD)}

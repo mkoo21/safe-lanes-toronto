@@ -7,6 +7,7 @@ const Icon = styled(FaCamera)`
   height: 100px;
   width: 100px;
   margin: 20px;
+  color: black;
 `;
 
 const Label = styled.label`

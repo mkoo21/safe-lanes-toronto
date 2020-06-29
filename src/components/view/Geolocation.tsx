@@ -17,7 +17,6 @@ const Container = styled(animated.div)`
   position: relative;
   height: 300px;
   width: 300px;
-  background: white;
   
   display: flex;
   flex-direction: column;
@@ -35,6 +34,15 @@ const SadIcon = styled(FaSadTear)`
   height: 200px;
   width: 200px;
   margin: 20px;
+`;
+
+const Col = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const H3 = styled.h3`
+  text-align: center;
 `;
 
 export default ({ onPosition, dismiss }: { onPosition: (position: Position) => any, dismiss: () => void}) => {
@@ -57,10 +65,10 @@ export default ({ onPosition, dismiss }: { onPosition: (position: Position) => a
   return ( 
     <Container>  
     <Icon />
-      <div>
-        <h3>This app works best with location enabled.</h3>
+      <Col>
+        <H3>This app works best with location enabled.</H3>
         <button onClick={getLocation}>OK</button>
-      </div>
+      </Col>
     </Container>
   );
 };
