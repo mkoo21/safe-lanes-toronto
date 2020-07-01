@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useTransition, animated } from 'react-spring';
 
 import Geolocate from '@services/Geolocation';
-import { extractTextFromFiles } from '@services/Rekognition';
+import { extractText, extractObjectLabels } from '@services/Rekognition';
 import UploadIcon from '@components/view/UploadIcon';
 import Geolocation from '@components/view/Geolocation';
 import { ReportSummary } from '@components/view/ReportSummary';
@@ -45,10 +45,13 @@ export default ({ setMapState }: { setMapState: (mapParams: object) => any }) =>
     setFlowState(FlowStates.SPINNER);
     setUploadedFiles(files);
     try {
-      const extractedText = await extractTextFromFiles(files);
+      const extractedText = await extractText(files);
+      const extractedLabels = await extractObjectLabels(files);
+      debugger
 
       if(geolocation) reportDetails.position = geolocation;
       if(extractedText) reportDetails.textDetections = extractedText;
+      if(extractedLabels) reportDetails.labels = extractedLabels;
     } catch(e) {
       if(e.name === "ValidationException"){
         alert('Please make sure your images are less than 5 mb')
@@ -103,7 +106,7 @@ export default ({ setMapState }: { setMapState: (mapParams: object) => any }) =>
   ReportComponent = (flowState === FlowStates.REPORT) ?
   (
     <animated.div style={transitions[FlowStates.REPORT].props}>
-      <ReportSummary position={reportDetails.position} extractedTexts={reportDetails.textDetections} />
+      <ReportSummary position={reportDetails.position} extractedTexts={reportDetails.textDetections || []} extractedLabels={reportDetails.labels || []} />
     </animated.div>
   ) : null;
 

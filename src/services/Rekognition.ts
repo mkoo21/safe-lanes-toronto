@@ -16,8 +16,13 @@ export interface TextDetection {
     [key: string]: any;
   }
 }
-export const extractTextFromFiles = async (files: File[]) => {
-  const textDetections: TextDetection[] = [];
+
+export interface ObjectDetection {
+  Name: string;
+  Confidence: number;
+}
+
+export const extractText = async (files: File[]) => {
   const fileData = await Promise.all(Array.prototype.map.call(files, (f: File) => f.arrayBuffer()));
 
   // This entire thing is horrible and I'm sorry.
@@ -40,4 +45,27 @@ export const extractTextFromFiles = async (files: File[]) => {
   ));
 
   return await Promise.all(fileDetectionPromises);
+};
+
+export const extractObjectLabels = async (files: File[]) => {
+  const fileData = await Promise.all(Array.prototype.map.call(files, (f: File) => f.arrayBuffer()));
+  
+  const objectDetectionPromises = fileData.map(bytes => (
+    new Promise((resolve, reject) => {
+      const callback = (err, data) => {
+        if(err) reject(err);
+        // const detections: ObjectDetection[] = [];
+        resolve(data.Labels);
+      };
+      CLIENT.detectLabels({
+        Image: {
+          Bytes: bytes as string,
+        },
+        MaxLabels: 10,
+        MinConfidence: 70
+      }, callback);
+    })
+  ));
+
+  return await Promise.all(objectDetectionPromises);
 };
