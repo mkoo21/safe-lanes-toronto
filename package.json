@@ -26,6 +26,7 @@
     "uuid": "^8.1.0"
   },
   "devDependencies": {
+    "@types/dom-mediacapture-record": "^1.0.7",
     "@types/mapbox-gl": "^1.11.0",
     "@types/react-loadable": "^5.5.3",
     "@types/styled-components": "^5.1.0",

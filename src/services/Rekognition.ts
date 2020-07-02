@@ -3,7 +3,7 @@ import AWS from 'aws-sdk';
 const CLIENT = new AWS.Rekognition({
   apiVersion: '2016-06-27',
   accessKeyId: 'AKIA3GGCYLS3K3LZXEGG',
-  secretAccessKey: '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', // For the 'public' user with only PUTObject permission
+  secretAccessKey: 'kFgoHHijqDyahQAnky65FeKhEAQAokw9mzMNsZAq', // 'public' read only access
   region: 'us-east-1',
 });
 

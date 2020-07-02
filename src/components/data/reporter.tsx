@@ -27,12 +27,19 @@ enum FlowStates {
   GEOLOCATION
 }
 
-const GridCell = styled.div`
+const MainCell = animated(styled.div`
   grid-area: main;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`);
+
+const SixCell = animated(styled.div`
+  grid-area: six;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`);
 
 export default ({ setMapState }: { setMapState: (mapParams: object) => any }) => {
   const [ uploadedFiles, setUploadedFiles ] = useState([] as File[]);
@@ -47,7 +54,6 @@ export default ({ setMapState }: { setMapState: (mapParams: object) => any }) =>
     try {
       const extractedText = await extractText(files);
       const extractedLabels = await extractObjectLabels(files);
-      debugger
 
       if(geolocation) reportDetails.position = geolocation;
       if(extractedText) reportDetails.textDetections = extractedText;
@@ -105,40 +111,42 @@ export default ({ setMapState }: { setMapState: (mapParams: object) => any }) =>
   let ReportComponent, SpinnerComponent, GeolocationComponent, UploadComponent;
   ReportComponent = (flowState === FlowStates.REPORT) ?
   (
-    <animated.div style={transitions[FlowStates.REPORT].props}>
+    <MainCell style={transitions[FlowStates.REPORT].props}>
       <ReportSummary position={reportDetails.position} extractedTexts={reportDetails.textDetections || []} extractedLabels={reportDetails.labels || []} />
-    </animated.div>
+    </MainCell>
   ) : null;
 
   SpinnerComponent = (flowState === FlowStates.SPINNER) ?
   (
-    <animated.div style={transitions[FlowStates.SPINNER].props}>
+    <MainCell style={transitions[FlowStates.SPINNER].props}>
       <UploadSpinner />
-    </animated.div>
+    </MainCell>
   ) : null;
 
   GeolocationComponent = (flowState === FlowStates.GEOLOCATION) ?
   (
-    <Geolocation 
-      onPosition={(position: Position) => {
-        setGeolocation(position);
-        const { latitude, longitude } = position.coords;
-        setMapState({ latitude, longitude, zoom: 16 })
-        setFlowState(FlowStates.UPLOAD);
-      }}
-      dismiss={() => setFlowState(FlowStates.UPLOAD)}
-      />
+    <MainCell>
+      <Geolocation 
+        onPosition={(position: Position) => {
+          setGeolocation(position);
+          const { latitude, longitude } = position.coords;
+          setMapState({ latitude, longitude, zoom: 16 })
+          setFlowState(FlowStates.UPLOAD);
+        }}
+        dismiss={() => setFlowState(FlowStates.UPLOAD)}
+        />
+      </MainCell>
   ) : null;
 
   // default: upload
   UploadComponent = (flowState === FlowStates.UPLOAD) ?
   (
-    <animated.div style={transitions[FlowStates.UPLOAD].props}>
+    <SixCell style={transitions[FlowStates.UPLOAD].props}>
       <UploadIcon handleUpload={handleFileUpload}/>
-    </animated.div>
+    </SixCell>
   ) : null;
 
-  return <GridCell>
+  return <>
     {[ReportComponent, SpinnerComponent, GeolocationComponent, UploadComponent]}
-  </GridCell>
+  </>
 };
