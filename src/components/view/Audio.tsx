@@ -23,6 +23,7 @@ const getAudioCallbacks = async (hooks: AudioHooks): Promise<AudioCallbacks> => 
   const mediaRecorder = new MediaRecorder(stream);
 
   const record = () => {
+    debugger;
     mediaRecorder.start();
     hooks.onRecordStart();
   }
@@ -34,6 +35,7 @@ const getAudioCallbacks = async (hooks: AudioHooks): Promise<AudioCallbacks> => 
   
   mediaRecorder.ondataavailable = (e: BlobEvent) => {
     hooks.onData(e.data);
+    debugger;
   }
 
   return { record, stop };
@@ -70,22 +72,32 @@ interface State {
 
 const AudioViewComponent = () => {
   const [ flowState, setFlowState ] = useState<FlowStates>(FlowStates.STOPPED);
+  const [ dataChunks, setDataChunks] = useState<Blob[]>([]);
+  const [ mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
 
-  let mediaRecorder: MediaRecorder | null;
-  let stream: MediaStream | null;
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia(CONSTRAINTS).then(stream => {
+      const mr = new MediaRecorder(stream);
+      mr.ondataavailable = (e: BlobEvent) => {
+        debugger;
+        dataChunks.push(e.data);
+      }
+      setMediaRecorder(mr);
+    }, () => {
+      //error
+      alert("Unfortunately your device does not seem to support recording audio.")
+    });
+  }, []);
 
   const record = async () => {
-    stream = await navigator.mediaDevices.getUserMedia(CONSTRAINTS);
-    mediaRecorder = new MediaRecorder(stream);
-    mediaRecorder.start();
+    setDataChunks([]);
     setFlowState(FlowStates.RECORDING);
-
-    // TODO: transcribe callout
+    mediaRecorder!.start();
   };
   const stop = () => {
-    if(mediaRecorder) mediaRecorder.stop();
-    [ mediaRecorder, stream ] = [ null, null ];
+    if(mediaRecorder && mediaRecorder.state === "recording") mediaRecorder.stop();
     setFlowState(FlowStates.STOPPED);
+    // TODO: transcribe
   };
 
   if (flowState === FlowStates.LOADING) return null;
