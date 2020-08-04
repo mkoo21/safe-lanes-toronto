@@ -1,0 +1,11 @@
+{
+  "name": "ffmpeg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "aws-sdk": "^2.725.0",
+    "ts-ebml": "^2.0.2"
+  }
+}
